@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Video Recorder</title>
+</head>
+<style>
+   body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white; /* Ensure text color is white */
+    cursor: pointer;
+    font-size: 16px; /* Increase font size for better visibility */
+    opacity: 0.95;
+    text-anchor: middle;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#status {
+    text-align: center;
+    margin-top: 20px;
+}
+</style>
+<body>
+    <div class="container">
+        <h1>Webcam Video Recorder</h1>
+        <button id="startBtn">Start Recording</button>
+        <button id="stopBtn">Stop Recording</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        let recordedFileName = '';
+
+        document.getElementById('startBtn').onclick = function() {
+            fetch('/start', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('status').innerText = data.status;
+                });
+        };
+
+        document.getElementById('stopBtn').onclick = function() {
+            fetch('/stop', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => document.getElementById('status').innerText = data.status)
+                confirm('File video.mov created!')
+        };
+    </script>
+</body>
+</html>
